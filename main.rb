@@ -1,8 +1,7 @@
 require 'tecplot_loader.rb'
 
-require 'tecplotter.rb'
-
-Tecplotter.new(read_plots)
+loader = TecplotLoader.new()
+read_plots = loader.load_tec('sample.tec')
 
 read_plots.each { |plot|
   puts plot.title

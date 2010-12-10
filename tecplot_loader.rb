@@ -20,8 +20,8 @@ class TecplotLoader
 
   end
 
-  def load_tec(*args)
-    File.open("sample.tec", "r") { |file|
+  def load_tec(tecfile)
+    File.open(tecfile, 'r') { |file|
 
       plots = Array.new
       plot = nil
@@ -32,17 +32,16 @@ class TecplotLoader
           plot = Tecplot.new
           title_val = /"[^"]+"/.match(line)  # Value of the title
           plot.title = title_val[0].gsub(/"/, '') # Remove quotes
-          puts "Title found: " + plot.title
 
           plots.push plot
 
         elsif line =~ /VARIABLES/  # VARIABLES tag
           variable_matches = line.scan(/"[^"]+"/)
           # For each variable remove quotes and push to array
-          variable_matches.to_a.each_with_index { |variable_string, i|
+          variable_matches.to_a.each_with_index do |variable_string, i|
             plot.variables.push variable_string.gsub(/"/, '')
             plot.values[i] = Array.new
-          }
+          end
 
         elsif line =~ /ZONE/  # ZONE tag
           zone_val = /"[^"]+"/.match(line)  # Value of the zone
@@ -51,9 +50,9 @@ class TecplotLoader
         # Matches floating numbers in scientific notation
         elsif line =~ /^[-+]?[0-9]+\.[0-9]+[eE][-+]?[0-9]+/
           vals = line.split(" ")
-          vals.each_with_index { |val, i|
+          vals.each_with_index do |val, i|
             plot.values[i].push val.to_f
-          }
+          end
         end
       end
 
