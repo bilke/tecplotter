@@ -142,13 +142,3 @@ class CompareTecplotter < Tecplotter
   end
 
 end
-
-loader = TecplotLoader.new
-
-plots1 = loader.load_tec('min1.tec')
-plots2 = loader.load_tec('min2.tec')
-
-#plots1 = loader.load_tec('sample.tec')
-#plots2 = loader.load_tec('sample2.tec')
-
-CompareTecplotter.new(plots1, plots2)
